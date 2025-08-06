@@ -10,7 +10,7 @@ env/
 
 # Git
 .git/
-.gitignore
+../.gitignore
 
 # IDE configs
 .vscode/
