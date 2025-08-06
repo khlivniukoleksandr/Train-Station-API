@@ -1,0 +1,1692 @@
+openapi: 3.0.3
+info:
+  title: Bus Station API
+  version: 1.0.0
+  description: Order tickets for your bus trips
+paths:
+  /api/train_station/journeys/:
+    get:
+      operationId: api_train_station_journeys_list
+      parameters:
+      - in: query
+        name: id
+        schema:
+          type: integer
+        description: Filter by Journey ID (ex. ?id=1,2)
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      - in: query
+        name: route
+        schema:
+          type: string
+        description: Filter by Route Name
+      - in: query
+        name: train
+        schema:
+          type: string
+        description: Filter by Train Name
+      tags:
+      - api
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedJourneyListList'
+          description: ''
+    post:
+      operationId: api_train_station_journeys_create
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Journey'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Journey'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Journey'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Journey'
+          description: ''
+  /api/train_station/journeys/{id}/:
+    get:
+      operationId: api_train_station_journeys_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this journey.
+        required: true
+      tags:
+      - api
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JourneyRetrieve'
+          description: ''
+    put:
+      operationId: api_train_station_journeys_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this journey.
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Journey'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Journey'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Journey'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Journey'
+          description: ''
+    patch:
+      operationId: api_train_station_journeys_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this journey.
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedJourney'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedJourney'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedJourney'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Journey'
+          description: ''
+    delete:
+      operationId: api_train_station_journeys_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this journey.
+        required: true
+      tags:
+      - api
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/train_station/orders/:
+    get:
+      operationId: api_train_station_orders_list
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      tags:
+      - api
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedOrderListList'
+          description: ''
+    post:
+      operationId: api_train_station_orders_create
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Order'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Order'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Order'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+          description: ''
+  /api/train_station/orders/{id}/:
+    get:
+      operationId: api_train_station_orders_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this order.
+        required: true
+      tags:
+      - api
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderDetail'
+          description: ''
+    put:
+      operationId: api_train_station_orders_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this order.
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Order'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Order'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Order'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+          description: ''
+    patch:
+      operationId: api_train_station_orders_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this order.
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedOrder'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedOrder'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedOrder'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+          description: ''
+    delete:
+      operationId: api_train_station_orders_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this order.
+        required: true
+      tags:
+      - api
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/train_station/routes/:
+    get:
+      operationId: api_train_station_routes_list
+      parameters:
+      - in: query
+        name: destination
+        schema:
+          type: string
+        description: Filter by Route Destination Name
+      - in: query
+        name: id
+        schema:
+          type: integer
+        description: Filter by Route ID (ex. ?id=1,2)
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      - in: query
+        name: source
+        schema:
+          type: string
+        description: Filter by Route Source Name
+      tags:
+      - api
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedRouteList'
+          description: ''
+    post:
+      operationId: api_train_station_routes_create
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Route'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Route'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Route'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Route'
+          description: ''
+  /api/train_station/routes/{id}/:
+    get:
+      operationId: api_train_station_routes_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this route.
+        required: true
+      tags:
+      - api
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Route'
+          description: ''
+    put:
+      operationId: api_train_station_routes_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this route.
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Route'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Route'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Route'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Route'
+          description: ''
+    patch:
+      operationId: api_train_station_routes_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this route.
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedRoute'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedRoute'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedRoute'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Route'
+          description: ''
+    delete:
+      operationId: api_train_station_routes_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this route.
+        required: true
+      tags:
+      - api
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/train_station/stations/:
+    get:
+      operationId: api_train_station_stations_list
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      tags:
+      - api
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedStationList'
+          description: ''
+    post:
+      operationId: api_train_station_stations_create
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Station'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Station'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Station'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Station'
+          description: ''
+  /api/train_station/stations/{id}/:
+    get:
+      operationId: api_train_station_stations_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this station.
+        required: true
+      tags:
+      - api
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Station'
+          description: ''
+    put:
+      operationId: api_train_station_stations_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this station.
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Station'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Station'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Station'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Station'
+          description: ''
+    patch:
+      operationId: api_train_station_stations_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this station.
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedStation'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedStation'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedStation'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Station'
+          description: ''
+    delete:
+      operationId: api_train_station_stations_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this station.
+        required: true
+      tags:
+      - api
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/train_station/train-types/:
+    get:
+      operationId: api_train_station_train_types_list
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      tags:
+      - api
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedTrainTypeList'
+          description: ''
+    post:
+      operationId: api_train_station_train_types_create
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TrainType'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TrainType'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TrainType'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TrainType'
+          description: ''
+  /api/train_station/train-types/{id}/:
+    get:
+      operationId: api_train_station_train_types_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this train type.
+        required: true
+      tags:
+      - api
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TrainType'
+          description: ''
+    put:
+      operationId: api_train_station_train_types_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this train type.
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TrainType'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TrainType'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TrainType'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TrainType'
+          description: ''
+    patch:
+      operationId: api_train_station_train_types_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this train type.
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedTrainType'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedTrainType'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedTrainType'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TrainType'
+          description: ''
+    delete:
+      operationId: api_train_station_train_types_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this train type.
+        required: true
+      tags:
+      - api
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/train_station/trains/:
+    get:
+      operationId: api_train_station_trains_list
+      parameters:
+      - in: query
+        name: id
+        schema:
+          type: integer
+        description: Filter by Train ID (ex. ?id=1,2)
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - in: query
+        name: name
+        schema:
+          type: string
+        description: Filter by Train Name
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      - in: query
+        name: train_type
+        schema:
+          type: integer
+        description: Filter by Train Type ID
+      - in: query
+        name: train_type_name
+        schema:
+          type: string
+        description: Filter by Train Type Name
+      tags:
+      - api
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedTrainList'
+          description: ''
+    post:
+      operationId: api_train_station_trains_create
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Train'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Train'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Train'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Train'
+          description: ''
+  /api/train_station/trains/{id}/:
+    get:
+      operationId: api_train_station_trains_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this train.
+        required: true
+      tags:
+      - api
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Train'
+          description: ''
+    put:
+      operationId: api_train_station_trains_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this train.
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Train'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Train'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Train'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Train'
+          description: ''
+    patch:
+      operationId: api_train_station_trains_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this train.
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedTrain'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedTrain'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedTrain'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Train'
+          description: ''
+    delete:
+      operationId: api_train_station_trains_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this train.
+        required: true
+      tags:
+      - api
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/user/me/:
+    get:
+      operationId: api_user_me_retrieve
+      tags:
+      - api
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: ''
+    put:
+      operationId: api_user_me_update
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/User'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/User'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: ''
+    patch:
+      operationId: api_user_me_partial_update
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedUser'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedUser'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedUser'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: ''
+  /api/user/register/:
+    post:
+      operationId: api_user_register_create
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/User'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/User'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: ''
+  /api/user/token/:
+    post:
+      operationId: api_user_token_create
+      description: |-
+        Takes a set of user credentials and returns an access and refresh JSON web
+        token pair to prove the authentication of those credentials.
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenObtainPair'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TokenObtainPair'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TokenObtainPair'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenObtainPair'
+          description: ''
+  /api/user/token/refresh/:
+    post:
+      operationId: api_user_token_refresh_create
+      description: |-
+        Takes a refresh type JSON web token and returns an access type JSON web
+        token if the refresh token is valid.
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenRefresh'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TokenRefresh'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TokenRefresh'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenRefresh'
+          description: ''
+components:
+  schemas:
+    Journey:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        route:
+          type: integer
+        train:
+          type: integer
+        departure_time:
+          type: string
+          format: date-time
+        arrival_time:
+          type: string
+          format: date-time
+      required:
+      - arrival_time
+      - departure_time
+      - id
+      - route
+      - train
+    JourneyList:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        route_write:
+          type: integer
+          writeOnly: true
+        route:
+          type: string
+          readOnly: true
+        train:
+          type: string
+        departure_time:
+          type: string
+          format: date-time
+        arrival_time:
+          type: string
+          format: date-time
+        tickets_available:
+          type: string
+          readOnly: true
+      required:
+      - arrival_time
+      - departure_time
+      - id
+      - route
+      - route_write
+      - tickets_available
+      - train
+    JourneyRetrieve:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        route:
+          allOf:
+          - $ref: '#/components/schemas/Route'
+          readOnly: true
+        train:
+          allOf:
+          - $ref: '#/components/schemas/Train'
+          readOnly: true
+        departure_time:
+          type: string
+          format: date-time
+        arrival_time:
+          type: string
+          format: date-time
+        taken_seats:
+          type: string
+          readOnly: true
+      required:
+      - arrival_time
+      - departure_time
+      - id
+      - route
+      - taken_seats
+      - train
+    Order:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        tickets:
+          type: array
+          items:
+            $ref: '#/components/schemas/Ticket'
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - created_at
+      - id
+      - tickets
+    OrderDetail:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        tickets:
+          type: array
+          items:
+            $ref: '#/components/schemas/TicketList'
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - created_at
+      - id
+      - tickets
+    OrderList:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        tickets:
+          type: array
+          items:
+            $ref: '#/components/schemas/TicketList'
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - created_at
+      - id
+      - tickets
+    PaginatedJourneyListList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/JourneyList'
+    PaginatedOrderListList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/OrderList'
+    PaginatedRouteList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Route'
+    PaginatedStationList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Station'
+    PaginatedTrainList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Train'
+    PaginatedTrainTypeList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/TrainType'
+    PatchedJourney:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        route:
+          type: integer
+        train:
+          type: integer
+        departure_time:
+          type: string
+          format: date-time
+        arrival_time:
+          type: string
+          format: date-time
+    PatchedOrder:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        tickets:
+          type: array
+          items:
+            $ref: '#/components/schemas/Ticket'
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+    PatchedRoute:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        source:
+          type: string
+        destination:
+          type: string
+        distance:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+    PatchedStation:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 100
+        latitude:
+          type: number
+          format: double
+        longitude:
+          type: number
+          format: double
+    PatchedTrain:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 100
+        cargo_num:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        places_in_cargo:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        train_type:
+          type: integer
+          writeOnly: true
+        train_type_detail:
+          allOf:
+          - $ref: '#/components/schemas/TrainType'
+          readOnly: true
+    PatchedTrainType:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 100
+    PatchedUser:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        email:
+          type: string
+          format: email
+          title: Email address
+          maxLength: 254
+        password:
+          type: string
+          writeOnly: true
+          maxLength: 128
+          minLength: 5
+        is_staff:
+          type: boolean
+          readOnly: true
+          title: Staff status
+          description: Designates whether the user can log into this admin site.
+    Route:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        source:
+          type: string
+        destination:
+          type: string
+        distance:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+      required:
+      - destination
+      - distance
+      - id
+      - source
+    Station:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 100
+        latitude:
+          type: number
+          format: double
+        longitude:
+          type: number
+          format: double
+      required:
+      - id
+      - latitude
+      - longitude
+      - name
+    Ticket:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        cargo:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        seat:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        journey:
+          type: integer
+      required:
+      - cargo
+      - id
+      - journey
+      - seat
+    TicketList:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        cargo:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        seat:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        journey:
+          allOf:
+          - $ref: '#/components/schemas/Journey'
+          readOnly: true
+      required:
+      - cargo
+      - id
+      - journey
+      - seat
+    TokenObtainPair:
+      type: object
+      properties:
+        email:
+          type: string
+          writeOnly: true
+        password:
+          type: string
+          writeOnly: true
+        access:
+          type: string
+          readOnly: true
+        refresh:
+          type: string
+          readOnly: true
+      required:
+      - access
+      - email
+      - password
+      - refresh
+    TokenRefresh:
+      type: object
+      properties:
+        access:
+          type: string
+          readOnly: true
+        refresh:
+          type: string
+          writeOnly: true
+      required:
+      - access
+      - refresh
+    Train:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 100
+        cargo_num:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        places_in_cargo:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        train_type:
+          type: integer
+          writeOnly: true
+        train_type_detail:
+          allOf:
+          - $ref: '#/components/schemas/TrainType'
+          readOnly: true
+      required:
+      - cargo_num
+      - id
+      - name
+      - places_in_cargo
+      - train_type
+      - train_type_detail
+    TrainType:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 100
+      required:
+      - id
+      - name
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        email:
+          type: string
+          format: email
+          title: Email address
+          maxLength: 254
+        password:
+          type: string
+          writeOnly: true
+          maxLength: 128
+          minLength: 5
+        is_staff:
+          type: boolean
+          readOnly: true
+          title: Staff status
+          description: Designates whether the user can log into this admin site.
+      required:
+      - email
+      - id
+      - is_staff
+      - password
+  securitySchemes:
+    jwtAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
